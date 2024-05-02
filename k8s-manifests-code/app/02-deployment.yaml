@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: united-remote
+  labels: # these labels are deployment labels
+    app: app
+    project: multi-group
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels: # these labels are used to find the pods
+      app: app
+      project: multi-group
+      tier: backend
+  template:
+    metadata:
+      labels: # these labels are pod labels
+        app: app
+        project: multi-group
+        tier: backend
+    spec:
+      containers:
+      - name: app
+        image: rmallidocker/multigroup 
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m"
+            memory: "256Mi"
+        envFrom:
+          - configMapRef:
+              name: mongodb

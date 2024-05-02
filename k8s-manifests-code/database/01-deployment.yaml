@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: united-remote
+  labels: # these labels are deployment labels
+    app: mongodb
+    project: multi-group
+    tier: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels: # these labels are used to find the pods
+      app: mongodb
+      project: multi-group
+      tier: db
+  template:
+    metadata:
+      labels: # these labels are pod labels
+        app: mongodb
+        project: multi-group
+        tier: db
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:latest
+        imagePullPolicy: Always

@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+
+  database:
+    image: mongo
+    container_name: mongodb
+    networks:
+      - app-network
+  
+  app:
+    build: ./app
+    container_name: app
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+    driver: bridge
